@@ -1,0 +1,90 @@
+<form class="form-horizontal" name="eventForm" ng-init="init()">
+  <legend>Create a New Event</legend>
+  <div class="form-group" ng-class="{'has-error': eventForm.name.$invalid && !eventForm.name.$pristine, 'has-success': !eventForm.name.$invalid}">
+    <label for="name" class="col-sm-4 control-label">What is the event name? *
+    </label>
+    <div class="col-sm-8">
+      <input id="name" name="name" type="text" placeholder="Your event's name" class="form-control" autofocus ng-model="event.name" required>
+      <span class="help-block" ng-show="eventForm.name.$error.required && !eventForm.name.$pristine">Event name required!</span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': eventForm.type.$invalid && !eventForm.type.$pristine, 'has-success': !eventForm.type.$invalid}">
+    <label for="type" class="col-sm-4 control-label">What type of event is it? *
+    </label>
+    <div class="col-sm-8">
+      <input id="type" name="type" list="types" class="form-control" ng-model="event.type" required placeholder="Select One">
+      <span class="help-block" ng-show="eventForm.type.$error.required && !eventForm.type.$pristine">Event type required!</span>
+    </div>
+  </div>
+  <datalist id="types">
+    <option value="birthday party"/>
+    <option value="conference talk"/>
+    <option value="wedding"/>
+    <option value="baby shower"/>
+    <option value="potluck"/>
+    <option value="BBQ"/>
+  </datalist>
+
+  <div class="form-group" ng-class="{'has-error': eventForm.host.$invalid && !eventForm.host.$pristine, 'has-success': !eventForm.host.$invalid}">
+    <label for="host" class="col-sm-4 control-label">Who is hosting the event? *
+    </label>
+    <div class="col-sm-8">
+      <input id="host" name="host" type="text" placeholder="Your name or your company's name" class="form-control" autocomplete="name" ng-model="event.host" required>
+      <span class="help-block" ng-show="eventForm.host.$error.required && !eventForm.host.$pristine">Host name required!</span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': eventForm.location.$invalid && !eventForm.location.$pristine, 'has-success': !eventForm.location.$invalid}">
+    <label for="location" class="col-sm-4 control-label">Where will the event happen? *
+    </label>
+    <div class="col-sm-8">
+      <input id="location" name="location" type="text" class="form-control" ng-model="event.location" ng-focus="geoLocate()" required>
+      <span class="help-block" ng-show="eventForm.location.$error.required && !eventForm.location.$pristine">Location required!</span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': eventForm.start.$invalid && !eventForm.start.$pristine, 'has-success': !eventForm.start.$invalid}">
+    <label for="start" class="col-sm-4 control-label">When does it start? *
+    </label>
+    <div class="col-sm-8">
+      <input id="start" name="start" type="datetime-local" class="form-control" ng-model="event.eventstart" required>
+      <span class="help-block" ng-show="eventForm.start.$error.required && !eventForm.start.$pristine">Start time required!</span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': (eventForm.end.$invalid ||!isValidTime()) && !eventForm.end.$pristine, 'has-success': !eventForm.end.$invalid && isValidTime()}">
+    <label for="end" class="col-sm-4 control-label">When does it end? *
+    </label>
+    <div class="col-sm-8">
+      <input id="end" name="end" type="datetime-local" class="form-control" ng-model="event.eventend" required>
+      <span class="help-block" ng-show="eventForm.end.$error.required && !eventForm.end.$pristine">End time required!</span>
+      <span class="help-block" ng-show="!isValidTime()">End time should be later than start time!</span>
+    </div>
+  </div>
+
+  <div class="form-group" ng-class="{'has-error': eventForm.guest.$invalid && !eventForm.guest.$pristine, 'has-success': !eventForm.guest.$invalid}">
+    <label for="guest" class="col-sm-4 control-label">Who do you want to invite? *
+    </label>
+    <div class="col-sm-8">
+      <textarea id="guest" name="guest" type="textarea" class="form-control" ng-model="event.guest" required placeholder="Type in your guest list"></textarea>
+      <span class="help-block" ng-show="eventForm.guest.$error.required && !eventForm.guest.$pristine">End time required!</span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="message" class="col-sm-4 control-label">Do you have any message to the guests?
+    </label>
+    <div class="col-sm-8">
+      <textarea id="message" class="form-control" placeholder="Please type in any additional information about the event" ng-model="event.message"></textarea>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-8">
+    <button class="btn btn-primary" ng-click="createEvent()" ng-disabled="eventForm.$invalid||!isValidTime()">Submit</button>
+    <a href="#/eventlist"><button class="btn btn-primary">Cancel</button></a>
+    </div>
+  </div>
+</form>
