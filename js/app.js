@@ -17,7 +17,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
     var events = $firebaseArray(fbRef);
     return events;
 })
-
+/*
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/eventlist', {
@@ -40,8 +40,9 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
     });
 }])
 
+/*
 //http://simplyaccessible.com/article/spangular-accessibility/
-
+//routing doesnt seem to be accessible using lynx - even with this code from spangular :-(
 .run(['$location', '$rootScope', function($location, $rootScope) {
   var history; // stores uri of last page viewed - Used to track if we should set focus to main H1
   var currentURL; // store uri of current page viewed - Used to track if we should set focus to main H1
@@ -73,6 +74,25 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
         }
     });
 }])
+*/
+
+//from spangular to display the events in
+.directive('setLastFocus', function($timeout, $rootScope) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true && $rootScope.lastTicketID != "") {
+                $timeout(function () {
+                    if($rootScope.flashMsg == "" && $rootScope.lastForm == "edit"){
+                        $("#" + $rootScope.lastTicketID + " .edit-btn").focus();
+                        $rootScope.lastTicketID = "";
+                        $rootScope.lastForm = "";
+                    }
+                });
+            }
+        }
+    }
+})
 .controller('EventListCtrl', [ "$scope", "events", function( $scope, events) {
     var eventList = this;
     eventList.events = events;
