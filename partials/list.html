@@ -1,0 +1,32 @@
+  <div class="row">
+  <div ng-repeat="event in eventList.events" class="col-sm-6 col-md-3" tabindex="0" setLastFocus>
+  <div class="panel panel-primary">
+  <div class="panel-heading">
+  <h3 class="panel-title"><Strong>{{event.name}}</Strong></h3>
+  </div>
+  <div class="panel-body">
+  <p><strong>Host: </strong>{{event.host}}</p>
+  <p><strong>Type: </strong>{{event.type}}</p>
+  <p>at: {{event.location}}</p>
+  <p>from: {{event.start}}</p>
+  <p>to: {{event.end}}</p>
+  <p><strong>Message to guests: </strong>{{event.message}}</p>
+  <p><strong>Guests: </strong>{{event.guest}}</p>
+  </div>
+  </div>
+  </div>
+  </div>
+
+<!--TODO: Choose the most accessible option - div or tab-->
+<!--
+<table>
+  <th></th>
+  <tr ng-repeat="event in eventList.events">
+    <td>{{event.name}}</td>
+    <td>{{event.host}}</td>
+    <td>{{event.start}}</td>
+    <td>{{event.end}}</td>
+    <td>{{event.location}}</td>
+  </tr>
+</table>
+-->
