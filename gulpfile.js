@@ -9,7 +9,7 @@ gulp.task('default', ['copy-html', 'copy-images', 'styles', 'lint', 'scripts'], 
 	gulp.watch('js/**/*.js', ['lint']);
 	gulp.watch('partials/**/*.html', ['copy-html']);
 	gulp.watch('index.html', ['copy-html']);
-	//TODO: find out why this keeps reloading:
+	//This would recursively create dist within dist, dont use it:
 	//gulp.watch('./dist/**/*.html').on('change', browserSync.reload);
 	gulp.watch('./dist/index.html').on('change', browserSync.reload);
 	gulp.watch('./dist/partials/*.html').on('change', browserSync.reload);
@@ -41,8 +41,14 @@ gulp.task('scripts-dist', function() {
 });
 
 gulp.task('copy-html', function() {
-	gulp.src('./**/*.html')
+	//This would recursively create dist within dist, dont use it:
+	//gulp.src('./**/*.html')
+	//.pipe(gulp.dest('./dist'));
+
+	gulp.src('./index.html')
 		.pipe(gulp.dest('./dist'));
+	gulp.src('./partials/*.html')
+		.pipe(gulp.dest('./dist/partials'));
 });
 
 gulp.task('copy-images', function() {
