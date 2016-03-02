@@ -1,0 +1,22 @@
+{
+  "name": "eventplanner",
+  "description": "event planner",
+  "main": "",
+  "authors": [
+    "mangalambigai <mangalambigais@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mangalambigai/eventplanner",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ng-a11y": "^0.0.12"
+  }
+}

@@ -1,10 +1,10 @@
-<form class="form-horizontal" name="eventForm" ng-init="init()">
+<form nga11y-form class="form-horizontal" name="eventForm" ng-init="init()">
   <legend>Create a New Event</legend>
   <div class="form-group" ng-class="{'has-error': eventForm.name.$invalid && !eventForm.name.$pristine, 'has-success': !eventForm.name.$invalid}">
     <label for="name" class="col-sm-4 control-label">What is the event name? *
     </label>
     <div class="col-sm-8">
-      <input id="name" name="name" type="text" placeholder="Your event's name" class="form-control" autofocus ng-model="event.name" required>
+      <input id="name" name="name" type="text" placeholder="Your event's name" class="form-control" autofocus ng-model="event.name" required >
       <span class="help-block" ng-show="eventForm.name.$error.required && !eventForm.name.$pristine">Event name required!</span>
     </div>
   </div>

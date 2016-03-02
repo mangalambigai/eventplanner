@@ -1,10 +1,10 @@
-<form class="form-horizontal" name="accountForm" role="form">
+<form nga11y-form class="form-horizontal" name="accountForm" role="form">
   <legend>Create a new account</legend>
   <div class="form-group" ng-class="{'has-error': !accountForm.name.$pristine && accountForm.name.$invalid, 'has-success': !accountForm.name.$invalid}">
     <label for="name" class="col-sm-4 control-label">Please enter your name: *
     </label>
     <div class="col-sm-8">
-      <input id="name" name="name" type="text" placeholder="Full Name" class="form-control" autofocus ng-model="account.name" required autocomplete="name">
+      <input id="name" name="name" type="text" placeholder="Full Name" class="form-control" autofocus ng-model="account.name" required autocomplete="name" nga11y-focus>
       <span class="help-block"
         ng-show="!accountForm.name.$pristine && accountForm.name.$error.required">Full name required!</span>
     </div>
