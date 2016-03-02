@@ -7,8 +7,12 @@ var uglify = require('gulp-uglify');
 
 gulp.task('default', ['copy-html', 'copy-images', 'styles', 'lint', 'scripts'], function() {
 	gulp.watch('js/**/*.js', ['lint']);
-	gulp.watch('/index.html', ['copy-html']);
+	gulp.watch('partials/**/*.html', ['copy-html']);
+	gulp.watch('index.html', ['copy-html']);
+	//TODO: find out why this keeps reloading:
+	//gulp.watch('./dist/**/*.html').on('change', browserSync.reload);
 	gulp.watch('./dist/index.html').on('change', browserSync.reload);
+	gulp.watch('./dist/partials/*.html').on('change', browserSync.reload);
 
 	browserSync.init({
 		server: './dist'
@@ -37,7 +41,7 @@ gulp.task('scripts-dist', function() {
 });
 
 gulp.task('copy-html', function() {
-	gulp.src('./index.html')
+	gulp.src('./**/*.html')
 		.pipe(gulp.dest('./dist'));
 });
 

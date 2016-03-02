@@ -17,7 +17,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
     var events = $firebaseArray(fbRef);
     return events;
 })
-/*
+
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/eventlist', {
