@@ -93,6 +93,17 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria', 'ng
         }
     }
 })
+
+.controller('RootCtrl', ['$scope', function($scope) {
+    /**
+     * Collapses the navbar on mobile devices.
+     */
+    $scope.collapseNavbar = function () {
+        angular.element(document.querySelector('.navbar-collapse')).removeClass('in');
+    };
+
+}])
+
 .controller('EventListCtrl', [ "$scope", "events", function( $scope, events) {
     var eventList = this;
     eventList.events = events;
