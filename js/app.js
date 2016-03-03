@@ -5,7 +5,7 @@ var LOWER_REGEXP = /[a-z]/;
 var SYMBOL_REGEXP = /[\!\@\#\$\%\^\&\*]/;
 var INVALID_REGEXP = /[^A-z0-9\!\@\#\$\%\^\&\*]/g;
 
-angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria', 'ngA11y'])
+angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 
 .value('fbURL', 'https://eventplnr.firebaseio.com/')
 

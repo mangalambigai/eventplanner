@@ -29,15 +29,13 @@ gulp.task('dist', [
 ]);
 
 gulp.task('scripts', function() {
-	//TODO: find out if this is the best practice for including scripts
-	gulp.src(['js/**/*.js', 'bower_components/ng-a11y/src/*.js'])
+	gulp.src('js/**/*.js')
 		.pipe(concat('all.js'))
 		.pipe(gulp.dest('dist/js'));
 });
 
 gulp.task('scripts-dist', function() {
-	//TODO: find out if this is the best practice for including scripts
-	gulp.src(['js/**/*.js', 'bower_components/ng-a11y/src/*.js'])
+	gulp.src('js/**/*.js')
 		.pipe(concat('all.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('dist/js'));
