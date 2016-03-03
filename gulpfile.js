@@ -6,13 +6,14 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 
 gulp.task('default', ['copy-html', 'copy-images', 'styles', 'lint', 'scripts'], function() {
-	gulp.watch('js/**/*.js', ['lint']);
+	gulp.watch('js/**/*.js', ['lint', 'scripts']);
 	gulp.watch('partials/**/*.html', ['copy-html']);
 	gulp.watch('index.html', ['copy-html']);
 	//This would recursively create dist within dist, dont use it:
 	//gulp.watch('./dist/**/*.html').on('change', browserSync.reload);
 	gulp.watch('./dist/index.html').on('change', browserSync.reload);
 	gulp.watch('./dist/partials/*.html').on('change', browserSync.reload);
+	gulp.watch('./dist/js/**/*.js').on('change', browserSync.reload);
 
 	browserSync.init({
 		server: './dist'

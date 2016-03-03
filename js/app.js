@@ -40,59 +40,17 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria', 'ng
     });
 }])
 
-/*
-//http://simplyaccessible.com/article/spangular-accessibility/
-//routing doesnt seem to be accessible using lynx - even with this code from spangular :-(
-.run(['$location', '$rootScope', function($location, $rootScope) {
-  var history; // stores uri of last page viewed - Used to track if we should set focus to main H1
-  var currentURL; // store uri of current page viewed - Used to track if we should set focus to main H1
 
-  //set the title for screen reader
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-        // test for current route
-        if(current.$$route) {
-            // store current path
-            currentURL = current.$$route.originalPath;
-            // Set current page title
-            $rootScope.title = current.$$route.title;
-        }
-       // When navigating between pages track the last page we were on
-        // to know if we should be setting focus on the h1 on view update
-        if(previous) {
-            if(previous.$$route){
-                history = previous.$$route.originalPath;
-            }
-        }
-    });
+.run(['$location', '$rootScope', function($location, $rootScope) {
     $rootScope.$on('$viewContentLoaded', function () {
 
-        // Once the template loads set focus to the h1 to manage focus
-        // if there is no history do not adjust focus this is the first page the user is seeing
-        if(history) {
-            // Default - set page focus to h1
-            $('h1').attr("tabIndex", -1).focus();
-        }
+        // Default - set page focus to first input
+        var firstElement = $('input, select').filter(':visible:first');
+        if (firstElement)
+          firstElement.focus();
     });
 }])
-*/
 
-//from spangular to display the events in
-.directive('setLastFocus', function($timeout, $rootScope) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            if (scope.$last === true && $rootScope.lastTicketID != "") {
-                $timeout(function () {
-                    if($rootScope.flashMsg == "" && $rootScope.lastForm == "edit"){
-                        $("#" + $rootScope.lastTicketID + " .edit-btn").focus();
-                        $rootScope.lastTicketID = "";
-                        $rootScope.lastForm = "";
-                    }
-                });
-            }
-        }
-    }
-})
 
 .controller('RootCtrl', ['$scope', function($scope) {
     /**
