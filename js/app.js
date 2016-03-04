@@ -1,4 +1,3 @@
-
 var INTEGER_REGEXP = /[0-9]/;
 var UPPER_REGEXP = /[A-Z]/;
 var LOWER_REGEXP = /[a-z]/;
@@ -10,10 +9,10 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 .value('fbURL', 'https://eventplnr.firebaseio.com/')
 
 .service('fbRef', function(fbURL) {
-  return new Firebase(fbURL);
+    return new Firebase(fbURL);
 })
 
-.service('events', function($firebaseArray, fbRef){
+.service('events', function($firebaseArray, fbRef) {
     var events = $firebaseArray(fbRef);
     return events;
 })
@@ -21,7 +20,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/eventlist', {
-        templateUrl:'partials/list.html',
+        templateUrl: 'partials/list.html',
         controller: 'EventListCtrl as eventList',
         title: 'Event List'
     }).
@@ -42,12 +41,13 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 
 
 .run(['$location', '$rootScope', function($location, $rootScope) {
-    $rootScope.$on('$viewContentLoaded', function () {
+    $rootScope.$on('$viewContentLoaded', function() {
 
         // Default - set page focus to first input
-        var firstElement = $('input, select').filter(':visible:first');
+        var firstElement = $('input, select').filter(
+            ':visible:first');
         if (firstElement)
-          firstElement.focus();
+            firstElement.focus();
     });
 }])
 
@@ -56,18 +56,20 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
     /**
      * Collapses the navbar on mobile devices.
      */
-    $scope.collapseNavbar = function () {
-        angular.element(document.querySelector('.navbar-collapse')).removeClass('in');
+    $scope.collapseNavbar = function() {
+        angular.element(document.querySelector(
+            '.navbar-collapse')).removeClass('in');
     };
 
 }])
 
-.controller('EventListCtrl', [ "$scope", "events", function( $scope, events) {
+.controller('EventListCtrl', ['$scope', 'events', function($scope, events) {
     var eventList = this;
     eventList.events = events;
 }])
 
-.controller('NewEventCtrl', ['$scope', 'events', '$location', function($scope, events, $location) {
+.controller('NewEventCtrl', ['$scope', 'events', '$location', function($scope,
+    events, $location) {
     $scope.createEvent = function() {
 
         //call $add on the firebaseArray with the new event
@@ -82,21 +84,22 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
         if (!$scope.event || !$scope.event.eventend) {
             return true;
         }
-        return $scope.event.eventstart<=$scope.event.eventend;
+        return $scope.event.eventstart <= $scope.event.eventend;
     }
 
     $scope.init = function() {
         // Create the autocomplete object, restricting the search to geographical
         // location types.
         $scope.autocomplete = new google.maps.places.Autocomplete(
-          document.getElementById('location'));
+            document.getElementById('location'));
     };
 
-    $scope.geoLocate = function () {
+    $scope.geoLocate = function() {
         // Bias the autocomplete object to the user's geographical location,
         // as supplied by the browser's 'navigator.geolocation' object.
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
+            navigator.geolocation.getCurrentPosition(function(
+                position) {
                 var geolocation = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
@@ -117,97 +120,103 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 }])
 
 .directive('password', function() {
-  return {
-    require: 'ngModel',
-    link: function(scope, elm, attrs, ctrl) {
-      ctrl.$validators.neednumber = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue)) {
-          // consider empty models to be invalid
-          return false;
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+            ctrl.$validators.neednumber = function(modelValue,
+                viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be invalid
+                    return false;
+                }
+
+                if (INTEGER_REGEXP.test(viewValue)) {
+                    // it is valid
+                    return true;
+                }
+
+                // it is invalid
+                return false;
+            };
+            ctrl.$validators.needlower = function(modelValue,
+                viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be invalid
+                    return false;
+                }
+
+                if (LOWER_REGEXP.test(viewValue)) {
+                    // it is valid
+                    return true;
+                }
+
+                // it is invalid
+                return false;
+            };
+
+            ctrl.$validators.needupper = function(modelValue,
+                viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be invalid
+                    return false;
+                }
+
+                if (UPPER_REGEXP.test(viewValue)) {
+                    // it is valid
+                    return true;
+                }
+
+                // it is invalid
+                return false;
+            };
+
+            ctrl.$validators.needsymbol = function(modelValue,
+                viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be invalid
+                    return false;
+                }
+
+                if (SYMBOL_REGEXP.test(viewValue)) {
+                    // it is valid
+                    return true;
+                }
+
+                // it is invalid
+                return false;
+            };
+
+            ctrl.$validators.invalidcharacter = function(modelValue,
+                viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be valid
+                    return true;
+                }
+
+                if (INVALID_REGEXP.test(viewValue)) {
+                    // it is invalid
+                    return false;
+                }
+
+                // it is valid
+                return true;
+            };
+
+            ctrl.$validators.length = function(modelValue,
+                viewValue) {
+                if (ctrl.$isEmpty(modelValue)) {
+                    // consider empty models to be valid
+                    return true;
+                }
+
+                if (viewValue.length < 8) {
+                    // it is invalid
+                    return false;
+                }
+
+                // it is valid
+                return true;
+            };
         }
-
-        if (INTEGER_REGEXP.test(viewValue)) {
-          // it is valid
-          return true;
-        }
-
-        // it is invalid
-        return false;
-      };
-      ctrl.$validators.needlower = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue)) {
-          // consider empty models to be invalid
-          return false;
-        }
-
-        if (LOWER_REGEXP.test(viewValue)) {
-          // it is valid
-          return true;
-        }
-
-        // it is invalid
-        return false;
-      };
-
-      ctrl.$validators.needupper = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue)) {
-          // consider empty models to be invalid
-          return false;
-        }
-
-        if (UPPER_REGEXP.test(viewValue)) {
-          // it is valid
-          return true;
-        }
-
-        // it is invalid
-        return false;
-      };
-
-      ctrl.$validators.needsymbol = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue)) {
-          // consider empty models to be invalid
-          return false;
-        }
-
-        if (SYMBOL_REGEXP.test(viewValue)) {
-          // it is valid
-          return true;
-        }
-
-        // it is invalid
-        return false;
-      };
-
-      ctrl.$validators.invalidcharacter = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue)) {
-          // consider empty models to be valid
-          return true;
-        }
-
-        if (INVALID_REGEXP.test(viewValue)) {
-          // it is invalid
-          return false;
-        }
-
-        // it is valid
-        return true;
-      };
-
-      ctrl.$validators.length = function(modelValue, viewValue) {
-        if (ctrl.$isEmpty(modelValue)) {
-          // consider empty models to be valid
-          return true;
-        }
-
-        if (viewValue.length<8) {
-          // it is invalid
-          return false;
-        }
-
-        // it is valid
-        return true;
-      };
-    }
-  };
+    };
 });
