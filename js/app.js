@@ -1,10 +1,3 @@
-var INTEGER_REGEXP = /[0-9]/;
-var UPPER_REGEXP = /[A-Z]/;
-var LOWER_REGEXP = /[a-z]/;
-var SYMBOL_REGEXP = /[\!\@\#\$\%\^\&\*]/;
-var INVALID_REGEXP = /[^A-z0-9\!\@\#\$\%\^\&\*]/g;
-var MIN_PWD_LENGTH = 8;
-
 /**
  * @ngdoc object
  * @name eventApp
@@ -17,6 +10,14 @@ var MIN_PWD_LENGTH = 8;
  *
  */
 angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
+.constant('PASSWORD', {
+    'INTEGER_REGEXP': /[0-9]/,
+    'UPPER_REGEXP': /[A-Z]/,
+    'LOWER_REGEXP': /[a-z]/,
+    'SYMBOL_REGEXP': /[\!\@\#\$\%\^\&\*]/,
+    'INVALID_REGEXP': /[^A-z0-9\!\@\#\$\%\^\&\*]/g,
+    'MIN_PWD_LENGTH': 8
+})
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/eventlist', {
@@ -218,7 +219,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
  * Directive for checking password validity
  *
  */
-.directive('password', function() {
+.directive('password', [ 'PASSWORD', function(PASSWORD) {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
@@ -234,7 +235,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return false;
                 }
 
-                if (INTEGER_REGEXP.test(viewValue)) {
+                if (PASSWORD.INTEGER_REGEXP.test(viewValue)) {
                     // it is valid
                     return true;
                 }
@@ -254,7 +255,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return false;
                 }
 
-                if (LOWER_REGEXP.test(viewValue)) {
+                if (PASSWORD.LOWER_REGEXP.test(viewValue)) {
                     // it is valid
                     return true;
                 }
@@ -274,7 +275,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return false;
                 }
 
-                if (UPPER_REGEXP.test(viewValue)) {
+                if (PASSWORD.UPPER_REGEXP.test(viewValue)) {
                     // it is valid
                     return true;
                 }
@@ -294,7 +295,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return false;
                 }
 
-                if (SYMBOL_REGEXP.test(viewValue)) {
+                if (PASSWORD.SYMBOL_REGEXP.test(viewValue)) {
                     // it is valid
                     return true;
                 }
@@ -314,7 +315,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return true;
                 }
 
-                if (INVALID_REGEXP.test(viewValue)) {
+                if (PASSWORD.INVALID_REGEXP.test(viewValue)) {
                     // it is invalid
                     return false;
                 }
@@ -334,7 +335,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return true;
                 }
 
-                if (viewValue.length < MIN_PWD_LENGTH) {
+                if (viewValue.length < PASSWORD.MIN_PWD_LENGTH) {
                     // it is invalid
                     return false;
                 }
@@ -344,4 +345,4 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
             };
         }
     };
-});
+}]);
