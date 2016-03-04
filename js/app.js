@@ -10,14 +10,6 @@
  *
  */
 angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
-.constant('PASSWORD', {
-    'INTEGER_REGEXP': /[0-9]/,
-    'UPPER_REGEXP': /[A-Z]/,
-    'LOWER_REGEXP': /[a-z]/,
-    'SYMBOL_REGEXP': /[\!\@\#\$\%\^\&\*]/,
-    'INVALID_REGEXP': /[^A-z0-9\!\@\#\$\%\^\&\*]/g,
-    'MIN_PWD_LENGTH': 8
-})
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/eventlist', {
@@ -210,6 +202,23 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 .controller('NewAccountCtrl', ['$scope', function($scope, $location) {
 //TODO: fill this out for creating new accounts
 }])
+
+/**
+ * @ngdoc constant
+ * @name PASSWORD
+ *
+ * @description
+ * Holds the constants related to password
+ *
+ */
+ .constant('PASSWORD', {
+    'INTEGER_REGEXP': /[0-9]/,
+    'UPPER_REGEXP': /[A-Z]/,
+    'LOWER_REGEXP': /[a-z]/,
+    'SYMBOL_REGEXP': /[\!\@\#\$\%\^\&\*]/,
+    'INVALID_REGEXP': /[^A-z0-9\!\@\#\$\%\^\&\*]/g,
+    'MIN_PWD_LENGTH': 8
+})
 
 /**
  * @ngdoc directive
