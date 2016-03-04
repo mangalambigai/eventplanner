@@ -161,6 +161,13 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
         // location types.
         $scope.autocomplete = new google.maps.places.Autocomplete(
             document.getElementById('location'));
+
+        // When the user selects an address from the dropdown,
+        // set it to the model, or angular doesn't know it changed
+        $scope.autocomplete.addListener('place_changed', function() {
+            $scope.event.location = $('#location').val();
+            $scope.$apply();
+        });
     };
 
     /**
