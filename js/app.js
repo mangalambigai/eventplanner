@@ -3,20 +3,20 @@ var UPPER_REGEXP = /[A-Z]/;
 var LOWER_REGEXP = /[a-z]/;
 var SYMBOL_REGEXP = /[\!\@\#\$\%\^\&\*]/;
 var INVALID_REGEXP = /[^A-z0-9\!\@\#\$\%\^\&\*]/g;
+var MIN_PWD_LENGTH = 8;
 
+/**
+ * @ngdoc object
+ * @name eventApp
+ * @requires ngRoute
+ * @requires firebase
+ * @requires ui.bootstrap
+ *
+ * @description
+ * Root app, which routes the partial html.
+ *
+ */
 angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
-
-.value('fbURL', 'https://eventplnr.firebaseio.com/')
-
-.service('fbRef', function(fbURL) {
-    return new Firebase(fbURL);
-})
-
-.service('events', function($firebaseArray, fbRef) {
-    var events = $firebaseArray(fbRef);
-    return events;
-})
-
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.
     when('/eventlist', {
@@ -39,6 +39,48 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
     });
 }])
 
+/**
+ * @ngdoc value
+ * @name fbURL
+ *
+ * @description
+ * Holds the firebase url
+ *
+ */
+.value('fbURL', 'https://eventplnr.firebaseio.com/')
+
+/**
+ * @ngdoc service
+ * @name fbRef
+ *
+ * @description
+ * Service for the firebase
+ *
+ */
+.service('fbRef', function(fbURL) {
+    return new Firebase(fbURL);
+})
+
+/**
+ * @ngdoc service
+ * @name events
+ *
+ * @description
+ * Service that holds the firebase events array
+ *
+ */
+.service('events', function($firebaseArray, fbRef) {
+    var events = $firebaseArray(fbRef);
+    return events;
+})
+
+/**
+ * @ngdoc run
+ *
+ * @description
+ * sets the focus on the first form element when new view is loaded
+ *
+ */
 
 .run(['$location', '$rootScope', function($location, $rootScope) {
     $rootScope.$on('$viewContentLoaded', function() {
@@ -51,7 +93,14 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
     });
 }])
 
-
+/**
+ * @ngdoc controller
+ * @name RootCtrl
+ *
+ * @description
+ * Root Controller for index.html
+ *
+ */
 .controller('RootCtrl', ['$scope', function($scope) {
     /**
      * Collapses the navbar on mobile devices.
@@ -63,13 +112,33 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 
 }])
 
+/**
+ * @ngdoc controller
+ * @name EventListCtrl
+ *
+ * @description
+ * Controller for the list of events
+ *
+ */
 .controller('EventListCtrl', ['$scope', 'events', function($scope, events) {
     var eventList = this;
     eventList.events = events;
 }])
 
+/**
+ * @ngdoc controller
+ * @name NewEventCtrl
+ *
+ * @description
+ * Controller for create new events page
+ *
+ */
 .controller('NewEventCtrl', ['$scope', 'events', '$location', function($scope,
     events, $location) {
+
+    /**
+     * Creates the new event in firebase
+     */
     $scope.createEvent = function() {
 
         //call $add on the firebaseArray with the new event
@@ -80,6 +149,10 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
 
     };
 
+    /**
+     * Checks if the event start time and end time are valid
+     * @returns {boolean} true if valid, false otherwise
+     */
     $scope.isValidTime = function() {
         if (!$scope.event || !$scope.event.eventend) {
             return true;
@@ -87,6 +160,9 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
         return $scope.event.eventstart <= $scope.event.eventend;
     }
 
+    /**
+     * Initializes the google places autocomplete object
+     */
     $scope.init = function() {
         // Create the autocomplete object, restricting the search to geographical
         // location types.
@@ -94,6 +170,9 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
             document.getElementById('location'));
     };
 
+    /**
+     * Geo locates to bias the autocomplete results to users location
+     */
     $scope.geoLocate = function() {
         // Bias the autocomplete object to the user's geographical location,
         // as supplied by the browser's 'navigator.geolocation' object.
@@ -113,16 +192,41 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
         }
     };
 
+    /**
+     * TODO: use the autocomplete result to set the firebase location data
+     */
+
 }])
 
+/**
+ * @ngdoc controller
+ * @name NewAccountCtrl
+ *
+ * @description
+ * Controller for create new accounts page
+ *
+ */
 .controller('NewAccountCtrl', ['$scope', function($scope, $location) {
-
+//TODO: fill this out for creating new accounts
 }])
 
+/**
+ * @ngdoc directive
+ * @name password
+ *
+ * @description
+ * Directive for checking password validity
+ *
+ */
 .directive('password', function() {
     return {
         require: 'ngModel',
         link: function(scope, elm, attrs, ctrl) {
+
+            /**
+             * Tests if the value has atleast one numeric digit
+             * @returns {boolean} true if it has numbers
+             */
             ctrl.$validators.neednumber = function(modelValue,
                 viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {
@@ -138,6 +242,11 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                 // it is invalid
                 return false;
             };
+
+            /**
+             * Tests if the value has atleast one lowercase letter
+             * @returns {boolean} true if it has one
+             */
             ctrl.$validators.needlower = function(modelValue,
                 viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {
@@ -154,6 +263,10 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                 return false;
             };
 
+            /**
+             * Tests if the value has atleast one uppercase letter
+             * @returns {boolean} true if it has one
+             */
             ctrl.$validators.needupper = function(modelValue,
                 viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {
@@ -170,6 +283,10 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                 return false;
             };
 
+            /**
+             * Tests if the value has atleast one valid symbol
+             * @returns {boolean} true if it has one
+             */
             ctrl.$validators.needsymbol = function(modelValue,
                 viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {
@@ -186,6 +303,10 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                 return false;
             };
 
+            /**
+             * Tests if the value has only valid symbols
+             * @returns {boolean} false if it has any invalid symbols
+             */
             ctrl.$validators.invalidcharacter = function(modelValue,
                 viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {
@@ -202,6 +323,10 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                 return true;
             };
 
+            /**
+             * Tests if the value has the minimum number of characters
+             * @returns {boolean} true if it has the required number of characters
+             */
             ctrl.$validators.length = function(modelValue,
                 viewValue) {
                 if (ctrl.$isEmpty(modelValue)) {
@@ -209,7 +334,7 @@ angular.module('eventApp', ['ngRoute', 'firebase', 'ui.bootstrap', 'ngAria'])
                     return true;
                 }
 
-                if (viewValue.length < 8) {
+                if (viewValue.length < MIN_PWD_LENGTH) {
                     // it is invalid
                     return false;
                 }

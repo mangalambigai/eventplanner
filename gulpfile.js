@@ -83,3 +83,10 @@ gulp.task('tests', function () {
 			vendor: 'js/**/*.js'
 		}));
 });
+
+gulp.task('ngdocs', [], function () {
+  var gulpDocs = require('gulp-ngdocs');
+  return gulp.src('js/*.js')
+    .pipe(gulpDocs.process())
+    .pipe(gulp.dest('./docs'));
+});
