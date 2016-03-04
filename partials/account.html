@@ -14,9 +14,9 @@
             <label for="email" class="col-sm-4 control-label">Please enter your email id: *
             </label>
             <div class="col-sm-8">
-                <input id="email" name="email" placeholder="jdoe@email.com" class="form-control" ng-model="account.email" required type="email" autocomplete="email">
+                <input id="email" name="email" placeholder="jdoe@email.com" class="form-control" ng-model="account.email" required type="email" ng-pattern=/^\S+@\S+\.\S+$/ autocomplete="email">
                 <span class="help-block" ng-show="!accountForm.email.$pristine && accountForm.email.$error.required">Email Id required!</span>
-                <span class="help-block" ng-show="!accountForm.email.$pristine && accountForm.email.$error.email">Need valid Email Id !</span>
+                <span class="help-block" ng-show="!accountForm.email.$pristine && accountForm.email.$invalid">Need valid Email Id !</span>
             </div>
         </div>
 
