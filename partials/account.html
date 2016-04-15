@@ -1,66 +1,90 @@
-<form nga11y-form class="form-horizontal" name="accountForm" role="form">
-  <legend>Create a new account</legend>
-  <div class="form-group" ng-class="{'has-error': !accountForm.name.$pristine && accountForm.name.$invalid, 'has-success': !accountForm.name.$invalid}">
-    <label for="name" class="col-sm-4 control-label">Please enter your name: *
-    </label>
-    <div class="col-sm-8">
-      <input id="name" name="name" type="text" placeholder="Full Name" class="form-control" autofocus ng-model="account.name" required autocomplete="name" nga11y-focus>
-      <span class="help-block"
-        ng-show="!accountForm.name.$pristine && accountForm.name.$error.required">Full name required!</span>
+<form class="form-horizontal" name="accountForm">
+    <fieldset>
+        <legend>Create a new account</legend>
+        <div class="form-group" ng-class="{'has-error': !accountForm.name.$pristine && accountForm.name.$invalid, 'has-success': !accountForm.name.$invalid}">
+            <label for="name" class="col-sm-4 control-label">Please enter your name: *
+            </label>
+            <div class="col-sm-8">
+                <input id="name" name="name" type="text" placeholder="Full Name" class="form-control" autofocus ng-model="account.name" required autocomplete="name">
+                <span class="help-block" ng-show="!accountForm.name.$pristine && accountForm.name.$error.required">Full name required!</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !accountForm.email.$pristine && accountForm.email.$invalid, 'has-success': !accountForm.email.$invalid}">
+            <label for="email" class="col-sm-4 control-label">Please enter your email id: *
+            </label>
+            <div class="col-sm-8">
+                <input id="email" name="email" placeholder="jdoe@email.com" class="form-control" ng-model="account.email" required type="email" ng-pattern=/^\S+@\S+\.\S+$/ autocomplete="email">
+                <span class="help-block" ng-show="!accountForm.email.$pristine && accountForm.email.$error.required">Email Id required!</span>
+                <span class="help-block" ng-show="!accountForm.email.$pristine && accountForm.email.$invalid">Need valid Email Id !</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !accountForm.password.$pristine && accountForm.password.$invalid, 'has-success': !accountForm.password.$invalid}">
+            <label for="password" class="col-sm-4 control-label">Please choose a secure password: *
+            </label>
+
+            <div class="col-sm-8">
+                <input id="password" name="password" type="password" placeholder="********" class="form-control" ng-model="account.password" required password>
+                <span class="help-block" ng-show="accountForm.password.$error.required">Password required!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && accountForm.password.$error.neednumber">Number required!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && accountForm.password.$error.needlower">Lowercase letter required!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && accountForm.password.$error.needupper">Uppercase letter required!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && accountForm.password.$error.needsymbol">One of !@#$%^&* required!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && accountForm.password.$error.invalidcharacter">Only letters, numbers and !@#$%^&* allowed!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && accountForm.password.$error.length">Password must be atleast 8 characters long!</span>
+            </div>
+        </div>
+
+        <div class="form-group" ng-class="{'has-error': !accountForm.password.$pristine && account.password2 != account.password, 'has-success': !accountForm.password.$invalid && account.password2 == account.password}">
+            <label for="password2" class="col-sm-4 control-label">Confirm password: *
+            </label>
+            <div class="col-sm-8">
+                <input id="password2" name="password2" type="password" placeholder="********" class="form-control" ng-model="account.password2" required>
+                <span class="help-block" ng-show="accountForm.password2.$error.required">Please confirm the password!</span>
+                <span class="help-block" ng-show="!accountForm.password.$pristine && account.password2 != account.password">Passwords do not match!</span>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            Optional Biographic information
+        </legend>
+
+        <div class="form-group">
+            <label for="employer" class="col-sm-4 control-label">Tell us your employer's name:
+            </label>
+            <div class="col-sm-8">
+                <input id="employer" name="employer" type="text" placeholder="Your employer's name" class="form-control" ng-model="account.employer" autocomplete="organization">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jobtitle" class="col-sm-4 control-label">Tell us your job title:
+            </label>
+            <div class="col-sm-8">
+                <input id="jobtitle" name="jobtitle" type="text" placeholder="Your job title" class="form-control" ng-model="account.jobtitle" autocomplete="organization-title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="birthday" class="col-sm-4 control-label">Share your birthday:
+            </label>
+            <div class="col-sm-8">
+                <input id="birthday" name="birthday" type="date" class="form-control" ng-model="account.birthday" autocomplete="birthday">
+            </div>
+        </div>
+
+    </fieldset>
+
+    <div class="form-group">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-8">
+            <button class="btn btn-primary" ng-disabled="accountForm.$invalid">Submit</button>
+            <a href="#/eventlist">
+                <button class="btn btn-primary">Cancel</button>
+            </a>
+        </div>
     </div>
-  </div>
-
-  <div class="form-group" ng-class="{'has-error': !accountForm.email.$pristine && accountForm.email.$invalid, 'has-success': !accountForm.email.$invalid}">
-    <label for="email" class="col-sm-4 control-label">Please enter your email id: *
-    </label>
-    <div class="col-sm-8">
-      <input id="email" name="email" placeholder="jdoe@email.com" class="form-control" ng-model="account.email" required type="email" autocomplete="email">
-      <span class="help-block"
-        ng-show="!accountForm.email.$pristine && accountForm.email.$error.required">Email Id required!</span>
-      <span class="help-block"
-        ng-show="!accountForm.email.$pristine && accountForm.email.$error.email">Need valid Email Id !</span>
-    </div>
-  </div>
-
-  <div class="form-group" ng-class="{'has-error': !accountForm.password.$pristine && accountForm.password.$invalid, 'has-success': !accountForm.password.$invalid}">
-    <label for="password" class="col-sm-4 control-label">Please choose a secure password: *
-    </label>
-
-    <div class="col-sm-8">
-      <input id="password" name="password" type="password" placeholder="********" class="form-control" ng-model="account.password" required password>
-      <span class="help-block"
-        ng-show="accountForm.password.$error.required">Password required!</span>
-      <span class="help-block"
-        ng-show="!accountForm.password.$pristine && accountForm.password.$error.neednumber">Number required!</span>
-      <span class="help-block"
-        ng-show="!accountForm.password.$pristine && accountForm.password.$error.needlower">Lowercase letter required!</span>
-      <span class="help-block"
-        ng-show="!accountForm.password.$pristine && accountForm.password.$error.needupper">Uppercase letter required!</span>
-      <span class="help-block"
-        ng-show="!accountForm.password.$pristine && accountForm.password.$error.needsymbol">One of !@#$%^&* required!</span>
-      <span class="help-block"
-        ng-show="!accountForm.password.$pristine && accountForm.password.$error.invalidcharacter">Only letters, numbers and !@#$%^&* allowed!</span>
-      <span class="help-block"
-        ng-show="!accountForm.password.$pristine && accountForm.password.$error.length">Password must be atleast 8 characters long!</span>
-    </div>
-  </div>
-
-  <div class="form-group" ng-class="{'has-error': !accountForm.password.$pristine && account.password2 != account.password, 'has-success': !accountForm.password.$invalid && account.password2 == account.password}">
-    <label for="password2" class="col-sm-4 control-label">Confirm password: *
-    </label>
-    <div class="col-sm-8">
-      <input id="password2" name="password2" type="password" placeholder="********" class="form-control" ng-model="account.password2" required>
-    <span class="help-block"
-        ng-show="accountForm.password2.$error.required">Please confirm the password!</span>
-    <span class="help-block"
-        ng-show="!accountForm.password.$pristine && account.password2 != account.password">Passwords do not match!</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-  <div class="col-sm-4"></div>
-  <div class="col-sm-8">
-  <button class="btn btn-primary" ng-disabled="accountForm.$invalid">Submit</button>
-  <a href="#/eventlist"><button class="btn btn-primary">Cancel</button></a>
-  </div>
 </form>
